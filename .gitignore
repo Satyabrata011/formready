@@ -1,0 +1,25 @@
+# Java and Maven
+target/
+*.class
+*.jar
+*.war
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Local configuration and secrets
+.env
+.env.*
+application-local.yml
+
+# Local tools and generated reports
+tools/
+test-output/
+allure-results/
+logs/
+outputs/
+
+# Operating system files
+Thumbs.db
+.DS_Store
