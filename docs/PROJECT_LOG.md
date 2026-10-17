@@ -55,7 +55,8 @@ It is a user-facing product, not an internal company test framework and not an e
 | 2026-10-14 | Verified Phase 1 manual setup: Java 21.0.1, Maven 3.10.0, Git identity, IntelliJ IDEA, Chrome, and JMeter are ready. Docker remains intentionally deferred. | Complete |
 | 2026-10-14 | Created the MVP design: product boundary, users, pages, data model, routes, acceptance criteria, and initial BDD scenarios. | Complete |
 | 2026-10-17 | Implemented the public FormReady landing page, its access rule, responsive styling, and a MockMvc verification test. | Complete |
+| 2026-10-17 | Implemented account registration, custom sign-in, password hashing, database migration, a protected dashboard, and automated registration-to-login coverage. Local development accounts now persist in a file-backed H2 database; tests use an isolated in-memory database. | Complete |
 
 ## Next step
 
-Run the landing-page test and start the application. Then implement user registration and application-specific authentication.
+Run the account journey locally and commit the current application foundation. Then implement the reusable personal profile.

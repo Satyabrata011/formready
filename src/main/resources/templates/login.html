@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Sign in | FormReady</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<header class="site-header">
+    <a aria-label="FormReady home" class="brand" href="/">Form<span>Ready</span></a>
+    <nav aria-label="Main navigation">
+        <a class="button button-small" href="/register">Create account</a>
+    </nav>
+</header>
+
+<main class="auth-main">
+    <section aria-labelledby="login-title" class="auth-card">
+        <p class="eyebrow">WELCOME BACK</p>
+        <h1 id="login-title">Sign in to FormReady.</h1>
+        <p class="form-intro">Continue preparing your job applications in one clear place.</p>
+
+        <p class="form-message success" role="status" th:if="${param.registered}">Account created. You can sign in now.</p>
+        <p class="form-message error" role="alert" th:if="${param.error}">Your email or password was not recognised.</p>
+        <p class="form-message success" role="status" th:if="${param.logout}">You have signed out.</p>
+
+        <form class="form-stack" method="post" th:action="@{/login}">
+            <div class="form-field">
+                <label for="username">Email address</label>
+                <input autocomplete="email" id="username" name="username" required type="email">
+            </div>
+            <div class="form-field">
+                <label for="password">Password</label>
+                <input autocomplete="current-password" id="password" name="password" required type="password">
+            </div>
+            <button class="button form-submit" data-testid="login-submit" type="submit">Sign in</button>
+        </form>
+
+        <p class="form-note">New to FormReady? <a class="secondary-link" href="/register">Create an account</a></p>
+    </section>
+</main>
+</body>
+</html>

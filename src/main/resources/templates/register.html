@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Create an account | FormReady</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<header class="site-header">
+    <a aria-label="FormReady home" class="brand" href="/">Form<span>Ready</span></a>
+    <nav aria-label="Main navigation">
+        <a class="text-link" href="/login">Sign in</a>
+    </nav>
+</header>
+
+<main class="auth-main">
+    <section aria-labelledby="register-title" class="auth-card">
+        <p class="eyebrow">START PREPARING</p>
+        <h1 id="register-title">Create your private workspace.</h1>
+        <p class="form-intro">Your account keeps your application preparation details separate from everyone else’s.</p>
+
+        <form class="form-stack" method="post" th:action="@{/register}" th:object="${registrationForm}">
+            <div class="form-field">
+                <label for="fullName">Your name</label>
+                <input autocomplete="name" id="fullName" maxlength="100" required th:field="*{fullName}" type="text">
+                <p class="field-error" th:errors="*{fullName}"></p>
+            </div>
+            <div class="form-field">
+                <label for="email">Email address</label>
+                <input autocomplete="email" id="email" maxlength="254" required th:field="*{email}" type="email">
+                <p class="field-error" th:errors="*{email}"></p>
+            </div>
+            <div class="form-field">
+                <label for="password">Password</label>
+                <input autocomplete="new-password" id="password" maxlength="64" minlength="12" required th:field="*{password}" type="password">
+                <p class="field-error" th:errors="*{password}"></p>
+            </div>
+            <div class="form-field">
+                <label for="passwordConfirmation">Confirm password</label>
+                <input autocomplete="new-password" id="passwordConfirmation" maxlength="64" minlength="12" required th:field="*{passwordConfirmation}" type="password">
+                <p class="field-error" th:errors="*{passwordConfirmation}"></p>
+            </div>
+            <button class="button form-submit" data-testid="register-submit" type="submit">Create account</button>
+        </form>
+
+        <p class="form-note">Use a password you do not reuse elsewhere. Passwords must be 12–64 characters.</p>
+        <p class="form-note">Already have an account? <a class="secondary-link" href="/login">Sign in</a></p>
+    </section>
+</main>
+</body>
+</html>

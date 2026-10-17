@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Your dashboard | FormReady</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<header class="site-header">
+    <a aria-label="FormReady home" class="brand" href="/">Form<span>Ready</span></a>
+    <form class="logout-form" method="post" th:action="@{/logout}">
+        <button class="button button-small button-quiet" type="submit">Sign out</button>
+    </form>
+</header>
+
+<main class="dashboard-main">
+    <section aria-labelledby="dashboard-title" class="dashboard-card">
+        <p class="eyebrow">YOUR PRIVATE WORKSPACE</p>
+        <h1 id="dashboard-title">You’re signed in.</h1>
+        <p>Your FormReady account is active for <strong th:text="${email}">your email address</strong>.</p>
+        <p>Next, we will build your reusable profile: the contact details, experience, skills, and links that will make each job application quicker to prepare.</p>
+        <div class="dashboard-actions">
+            <a class="button" href="#next-step">Profile setup is next</a>
+        </div>
+    </section>
+</main>
+</body>
+</html>
