@@ -1,6 +1,7 @@
 package com.satyabrata.formready.web;
 
 import com.satyabrata.formready.application.ApplicationStatus;
+import com.satyabrata.formready.application.AnswerCardService;
 import com.satyabrata.formready.application.JobApplication;
 import com.satyabrata.formready.application.JobApplicationForm;
 import com.satyabrata.formready.application.JobApplicationService;
@@ -21,9 +22,11 @@ import java.util.UUID;
 public class JobApplicationController {
 
     private final JobApplicationService jobApplicationService;
+    private final AnswerCardService answerCardService;
 
-    public JobApplicationController(JobApplicationService jobApplicationService) {
+    public JobApplicationController(JobApplicationService jobApplicationService, AnswerCardService answerCardService) {
         this.jobApplicationService = jobApplicationService;
+        this.answerCardService = answerCardService;
     }
 
     @GetMapping("/applications/new")
@@ -56,6 +59,10 @@ public class JobApplicationController {
     @GetMapping("/applications/{applicationId}")
     String applicationDetails(Authentication authentication, @PathVariable UUID applicationId, Model model) {
         model.addAttribute("jobApplication", jobApplicationService.getApplication(authentication.getName(), applicationId));
+        var checklist = jobApplicationService.getChecklist(authentication.getName(), applicationId);
+        model.addAttribute("checklist", checklist);
+        model.addAttribute("completedChecklistItems", checklist.stream().filter(item -> item.isCompleted()).count());
+        model.addAttribute("answerCards", answerCardService.getCards(authentication.getName()));
         model.addAttribute("statuses", ApplicationStatus.values());
         return "application-details";
     }

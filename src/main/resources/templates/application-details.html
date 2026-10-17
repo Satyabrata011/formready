@@ -5,6 +5,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>Application plan | FormReady</title>
     <link rel="stylesheet" th:href="@{/css/site.css}">
+    <script defer th:src="@{/js/copy.js}"></script>
 </head>
 <body>
 <header class="site-header">
@@ -27,8 +28,9 @@
         </div>
         <span class="status-badge" th:text="${jobApplication.status.label}">Draft</span>
     </div>
-    <p class="form-message success" role="status" th:if="${param.created}">Application plan created. Next, we will generate its preparation checklist.</p>
+    <p class="form-message success" role="status" th:if="${param.created}">Application plan created. Your standard preparation checklist is ready below.</p>
     <p class="form-message success" role="status" th:if="${param.statusUpdated}">Application status updated.</p>
+    <p class="form-message success" role="status" th:if="${param.checklistUpdated}">Checklist progress updated.</p>
 
     <div class="application-grid">
         <section aria-labelledby="overview-title" class="application-card">
@@ -61,6 +63,42 @@
             </form>
         </section>
     </div>
+
+    <section aria-labelledby="checklist-title" class="application-card checklist-card">
+        <div class="checklist-card-heading">
+            <div>
+                <p class="eyebrow">PREPARATION CHECKLIST</p>
+                <h2 id="checklist-title">One clear step at a time.</h2>
+            </div>
+            <strong th:text="|${completedChecklistItems} of ${#lists.size(checklist)} tasks complete|">0 of 6 tasks complete</strong>
+        </div>
+        <ul class="application-checklist">
+            <li th:each="item : ${checklist}" th:classappend="${item.completed} ? ' completed' : ''">
+                <span class="check" th:classappend="${item.completed} ? ' complete' : ''" th:text="${item.completed} ? '✓' : ''">✓</span>
+                <span th:text="${item.title}">Review job description</span>
+                <form method="post" th:action="@{|/applications/${jobApplication.id}/checklist-items/${item.id}/toggle|}">
+                    <button class="text-button" th:text="${item.completed} ? 'Mark incomplete' : 'Mark complete'" type="submit">Mark complete</button>
+                </form>
+            </li>
+        </ul>
+    </section>
+
+    <section aria-labelledby="answer-cards-title" class="answer-cards-section">
+        <div class="checklist-card-heading">
+            <div>
+                <p class="eyebrow">REUSABLE ANSWERS</p>
+                <h2 id="answer-cards-title">Copy your saved details.</h2>
+            </div>
+        </div>
+        <p class="empty-state" th:if="${#lists.isEmpty(answerCards)}">Complete your profile to create reusable answer cards for contact details, experience, education, and skills.</p>
+        <div class="answer-card-grid" th:unless="${#lists.isEmpty(answerCards)}">
+            <article class="answer-card" th:each="card : ${answerCards}">
+                <h3 th:text="${card.label}">Full name</h3>
+                <p th:text="${card.value}">Saved answer</p>
+                <button class="button-quiet copy-button" data-copy="" th:attr="data-copy=${card.value}" type="button">Copy</button>
+            </article>
+        </div>
+    </section>
 </main>
 </body>
 </html>

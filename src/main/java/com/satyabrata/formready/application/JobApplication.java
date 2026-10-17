@@ -105,4 +105,11 @@ public class JobApplication {
     public ApplicationStatus getStatus() {
         return status;
     }
+
+    public boolean isOverdue() {
+        return deadline != null
+                && deadline.isBefore(LocalDate.now())
+                && status != ApplicationStatus.APPLIED
+                && status != ApplicationStatus.ARCHIVED;
+    }
 }

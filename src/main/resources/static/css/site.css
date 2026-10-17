@@ -601,6 +601,92 @@ h2 {
     max-width: none;
 }
 
+.checklist-card,
+.answer-cards-section {
+    margin-top: 1.25rem;
+}
+
+.checklist-card-heading {
+    align-items: start;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.checklist-card-heading h2 {
+    margin-bottom: 0;
+}
+
+.checklist-card-heading > strong {
+    color: var(--primary);
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.application-checklist {
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0;
+}
+
+.application-checklist li {
+    align-items: center;
+    border-top: 1px solid var(--border);
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: auto 1fr auto;
+    padding: 0.85rem 0;
+}
+
+.application-checklist li.completed > span:nth-child(2) {
+    color: var(--muted);
+    text-decoration: line-through;
+}
+
+.answer-cards-section {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+}
+
+.answer-card-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    margin-top: 1.25rem;
+}
+
+.answer-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.answer-card h3 {
+    font-size: 0.84rem;
+    margin-bottom: 0.45rem;
+    text-transform: uppercase;
+}
+
+.answer-card p {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+    white-space: pre-line;
+}
+
+.copy-button {
+    align-self: start;
+    border-radius: 0.45rem;
+    padding: 0.45rem 0.7rem;
+}
+
+.deadline-overdue .application-list-meta > span:last-child {
+    color: #a3293d;
+    font-weight: 750;
+}
+
 .application-facts {
     display: grid;
     gap: 1.25rem;
@@ -656,6 +742,19 @@ h2 {
 
     .application-list-meta {
         justify-content: start;
+    }
+
+    .application-checklist li {
+        align-items: start;
+        grid-template-columns: auto 1fr;
+    }
+
+    .application-checklist li form {
+        grid-column: 2;
+    }
+
+    .checklist-card-heading {
+        flex-direction: column;
     }
 
     .hero {

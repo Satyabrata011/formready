@@ -7,6 +7,8 @@ import com.satyabrata.formready.profile.ProfileSkillRepository;
 import com.satyabrata.formready.profile.WorkExperienceRepository;
 import com.satyabrata.formready.application.JobApplication;
 import com.satyabrata.formready.application.JobApplicationRepository;
+import com.satyabrata.formready.application.ChecklistItem;
+import com.satyabrata.formready.application.ChecklistItemRepository;
 import com.satyabrata.formready.user.AppUser;
 import com.satyabrata.formready.user.AppUserRepository;
 import org.junit.jupiter.api.Test;
@@ -50,6 +52,9 @@ class FormreadyApplicationTests {
 
     @Autowired
     private JobApplicationRepository applications;
+
+    @Autowired
+    private ChecklistItemRepository checklistItems;
 
 	@Test
 	void contextLoads() {
@@ -168,6 +173,7 @@ class FormreadyApplicationTests {
     @Test
     void signedInUserCanCreateAndUpdateTheirOwnJobApplication() throws Exception {
         MockHttpSession session = registerAndSignIn("Application User", "application.owner@email.com", "secure-password-78");
+        saveBasicProfile(session, "Application", "User");
 
         mockMvc.perform(post("/applications")
                         .session(session)
@@ -182,6 +188,18 @@ class FormreadyApplicationTests {
         assertThat(applications.count()).isEqualTo(1);
         JobApplication application = applications.findAll().getFirst();
         assertThat(application.getJobTitle()).isEqualTo("QA Automation Engineer");
+        assertThat(checklistItems.findAllByJobApplicationIdOrderByDisplayOrderAsc(application.getId())).hasSize(6);
+
+        mockMvc.perform(get("/dashboard").session(session))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("QA Automation Engineer")));
+
+        ChecklistItem firstChecklistItem = checklistItems.findAllByJobApplicationIdOrderByDisplayOrderAsc(application.getId()).getFirst();
+        mockMvc.perform(post("/applications/{applicationId}/checklist-items/{checklistItemId}/toggle", application.getId(), firstChecklistItem.getId())
+                        .session(session)
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/applications/" + application.getId() + "?checklistUpdated"));
 
         mockMvc.perform(post("/applications/{applicationId}/status", application.getId())
                         .session(session)
@@ -194,7 +212,10 @@ class FormreadyApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(view().name("application-details"))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("QA Automation Engineer")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Applied")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Applied")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("1 of 6 tasks complete")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Full name")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Application User")));
     }
 
     private MockHttpSession registerAndSignIn(String fullName, String email, String password) throws Exception {

@@ -59,7 +59,8 @@ It is a user-facing product, not an internal company test framework and not an e
 | 2026-10-17 | Implemented the reusable personal profile: protected create/update page, contact and professional fields, safe web-link validation, database migration, and automated profile-save coverage. | Complete |
 | 2026-10-17 | Implemented reusable education, work-experience, and skill entries with owner-only deletion, input validation, database migration, and automated coverage. | Complete |
 | 2026-10-17 | Implemented owner-scoped job application plans with company, role, optional web link and deadline, status updates, dashboard listing, database migration, and automated coverage. | Complete |
+| 2026-10-17 | Completed the MVP preparation workspace UI: standard checklist creation and toggling, progress display, reusable answer cards with copy support, and overdue-deadline state. | Complete |
 
 ## Next step
 
-Run the job-application journey locally and commit it. Then generate the standard preparation checklist for every new application.
+Run the complete FormReady MVP journey locally and commit the frontend-and-workspace milestone. Next, add Cucumber, Selenium Page Objects, and TestNG automation around the core user journey.

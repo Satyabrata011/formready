@@ -39,14 +39,15 @@
             <a class="button button-small" href="/applications/new">New application</a>
         </div>
         <p class="empty-state" th:if="${#lists.isEmpty(applications)}">No application plans yet. Add one when you find a role you want to pursue.</p>
-        <a class="application-list-item" th:each="application : ${applications}" th:href="@{|/applications/${application.id}|}">
+        <a class="application-list-item" th:classappend="${jobPlan.overdue} ? ' deadline-overdue' : ''" th:each="jobPlan : ${applications}" th:href="@{|/applications/${jobPlan.id}|}">
             <span>
-                <strong th:text="${application.jobTitle}">Job title</strong>
-                <span th:text="${application.companyName}">Company</span>
+                <strong th:text="${jobPlan.jobTitle}">Job title</strong>
+                <span th:text="${jobPlan.companyName}">Company</span>
             </span>
             <span class="application-list-meta">
-                <span class="status-badge" th:text="${application.status.label}">Draft</span>
-                <span th:if="${application.deadline != null}" th:text="|Due ${#temporals.format(application.deadline, 'd MMM')}|">Due 1 Jan</span>
+                <span class="status-badge" th:text="${jobPlan.status.label}">Draft</span>
+                <span th:if="${jobPlan.deadline != null and jobPlan.overdue}" th:text="|Overdue: ${#temporals.format(jobPlan.deadline, 'd MMM')}|">Overdue: 1 Jan</span>
+                <span th:if="${jobPlan.deadline != null and not jobPlan.overdue}" th:text="|Due ${#temporals.format(jobPlan.deadline, 'd MMM')}|">Due 1 Jan</span>
             </span>
         </a>
     </section>
