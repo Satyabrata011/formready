@@ -54,7 +54,8 @@ It is a user-facing product, not an internal company test framework and not an e
 | 2026-10-14 | Audited the local Windows environment. JDK 21.0.1, Git, IntelliJ IDEA, and Chrome are present; `JAVA_HOME`, Maven CLI, and JMeter still need manual setup. Docker is deferred. | Complete |
 | 2026-10-14 | Verified Phase 1 manual setup: Java 21.0.1, Maven 3.10.0, Git identity, IntelliJ IDEA, Chrome, and JMeter are ready. Docker remains intentionally deferred. | Complete |
 | 2026-10-14 | Created the MVP design: product boundary, users, pages, data model, routes, acceptance criteria, and initial BDD scenarios. | Complete |
+| 2026-10-17 | Implemented the public FormReady landing page, its access rule, responsive styling, and a MockMvc verification test. | Complete |
 
 ## Next step
 
-Review `docs/MVP_DESIGN.md`, then create the Spring Boot Maven project as the first implementation step.
+Run the landing-page test and start the application. Then implement user registration and application-specific authentication.

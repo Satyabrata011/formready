@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="FormReady helps people prepare job applications with reusable information, clear checklists, and deadline tracking." name="description">
+    <title>FormReady | Prepare applications with confidence</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<header class="site-header">
+    <a aria-label="FormReady home" class="brand" href="/">Form<span>Ready</span></a>
+    <nav aria-label="Main navigation">
+        <a class="text-link" href="#how-it-works">How it works</a>
+        <a class="text-link" href="/login">Sign in</a>
+        <a class="button button-small" data-testid="get-started-link" href="#how-it-works">Get started</a>
+    </nav>
+</header>
+
+<main>
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+            <p class="eyebrow">YOUR APPLICATION PREPARATION SPACE</p>
+            <h1 id="hero-title">Spend less time searching. Apply with confidence.</h1>
+            <p class="hero-description">
+                FormReady keeps your reusable career details, preparation checklist, and application deadline in one private place.
+            </p>
+            <div class="hero-actions">
+                <a class="button" data-testid="hero-get-started-link" href="#how-it-works">See how it works</a>
+                <a class="secondary-link" href="/login">Already have an account? Sign in</a>
+            </div>
+        </div>
+        <aside aria-label="FormReady application checklist preview" class="checklist-preview">
+            <div class="preview-heading">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>QA Automation Engineer</span>
+            </div>
+            <p class="preview-company">Example Labs · Deadline in 4 days</p>
+            <ul>
+                <li><span class="check complete" aria-hidden="true">✓</span> Review job description</li>
+                <li><span class="check complete" aria-hidden="true">✓</span> Update resume</li>
+                <li><span class="check" aria-hidden="true"></span> Prepare cover letter</li>
+                <li><span class="check" aria-hidden="true"></span> Submit application</li>
+            </ul>
+        </aside>
+    </section>
+
+    <section class="how-it-works" id="how-it-works" aria-labelledby="how-it-works-title">
+        <div class="section-heading">
+            <p class="eyebrow">SIMPLE BY DESIGN</p>
+            <h2 id="how-it-works-title">Prepare every application in three clear steps.</h2>
+        </div>
+        <ol class="steps">
+            <li>
+                <span class="step-number">01</span>
+                <h3>Save your details once</h3>
+                <p>Keep your experience, skills, education, and useful links ready to reuse.</p>
+            </li>
+            <li>
+                <span class="step-number">02</span>
+                <h3>Create an application plan</h3>
+                <p>Add the company, target role, and deadline. FormReady gives you a clear checklist.</p>
+            </li>
+            <li>
+                <span class="step-number">03</span>
+                <h3>Stay on track</h3>
+                <p>Mark preparation tasks complete and see exactly what remains before you apply.</p>
+            </li>
+        </ol>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <p>FormReady keeps you in control. It prepares your information; it never submits applications for you.</p>
+</footer>
+</body>
+</html>
