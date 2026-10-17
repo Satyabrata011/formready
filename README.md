@@ -22,5 +22,4 @@ The user remains responsible for reviewing and submitting information on third-p
 
 ## Current phase
 
-Project discovery and foundation. See [the project log](docs/PROJECT_LOG.md) for decisions, completed work, and the next planned step.
-
+MVP design is complete. See the [MVP design](docs/MVP_DESIGN.md), [roadmap](docs/ROADMAP.md), and [project log](docs/PROJECT_LOG.md) for scope, decisions, completed work, and the next planned step.

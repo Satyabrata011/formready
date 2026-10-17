@@ -53,7 +53,8 @@ It is a user-facing product, not an internal company test framework and not an e
 | 2026-10-14 | Created the setup and development roadmap, including tool setup, architecture, build order, testing, and deployment procedure. | Complete |
 | 2026-10-14 | Audited the local Windows environment. JDK 21.0.1, Git, IntelliJ IDEA, and Chrome are present; `JAVA_HOME`, Maven CLI, and JMeter still need manual setup. Docker is deferred. | Complete |
 | 2026-10-14 | Verified Phase 1 manual setup: Java 21.0.1, Maven 3.10.0, Git identity, IntelliJ IDEA, Chrome, and JMeter are ready. Docker remains intentionally deferred. | Complete |
+| 2026-10-14 | Created the MVP design: product boundary, users, pages, data model, routes, acceptance criteria, and initial BDD scenarios. | Complete |
 
 ## Next step
 
-Begin Phase 2: set up the project repository and core accounts, then define the MVP user journeys, pages, data model, and acceptance criteria.
+Review `docs/MVP_DESIGN.md`, then create the Spring Boot Maven project as the first implementation step.
