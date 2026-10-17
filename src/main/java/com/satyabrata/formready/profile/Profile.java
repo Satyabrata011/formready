@@ -96,6 +96,10 @@ public class Profile {
         return userId;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public String getFirstName() {
         return firstName;
     }

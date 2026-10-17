@@ -2,6 +2,9 @@ package com.satyabrata.formready;
 
 import com.satyabrata.formready.profile.Profile;
 import com.satyabrata.formready.profile.ProfileRepository;
+import com.satyabrata.formready.profile.EducationRepository;
+import com.satyabrata.formready.profile.ProfileSkillRepository;
+import com.satyabrata.formready.profile.WorkExperienceRepository;
 import com.satyabrata.formready.user.AppUser;
 import com.satyabrata.formready.user.AppUserRepository;
 import org.junit.jupiter.api.Test;
@@ -33,6 +36,15 @@ class FormreadyApplicationTests {
 
     @Autowired
     private ProfileRepository profiles;
+
+    @Autowired
+    private EducationRepository educations;
+
+    @Autowired
+    private WorkExperienceRepository workExperiences;
+
+    @Autowired
+    private ProfileSkillRepository skills;
 
 	@Test
 	void contextLoads() {
@@ -103,6 +115,51 @@ class FormreadyApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Bhubaneswar")));
     }
 
+    @Test
+    void signedInUserCanAddCareerDetailsToTheirProfile() throws Exception {
+        MockHttpSession session = registerAndSignIn("Career User", "career.owner@email.com", "secure-password-56");
+        saveBasicProfile(session, "Career", "User");
+
+        mockMvc.perform(post("/profile/education")
+                        .session(session)
+                        .with(csrf())
+                        .param("institution", "Bhubaneswar Technical Institute")
+                        .param("qualification", "Bachelor of Technology")
+                        .param("fieldOfStudy", "Computer Science")
+                        .param("graduationYear", "2022"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/profile/details?educationSaved"));
+
+        mockMvc.perform(post("/profile/work-experience")
+                        .session(session)
+                        .with(csrf())
+                        .param("company", "Example Labs")
+                        .param("jobTitle", "QA Automation Engineer")
+                        .param("startDate", "2023-01-01")
+                        .param("endDate", "")
+                        .param("description", "Built reliable test automation."))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/profile/details?experienceSaved"));
+
+        mockMvc.perform(post("/profile/skills")
+                        .session(session)
+                        .with(csrf())
+                        .param("name", "Selenium"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/profile/details?skillSaved"));
+
+        assertThat(educations.count()).isEqualTo(1);
+        assertThat(workExperiences.count()).isEqualTo(1);
+        assertThat(skills.count()).isEqualTo(1);
+
+        mockMvc.perform(get("/profile/details").session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("profile-details"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Bhubaneswar Technical Institute")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("QA Automation Engineer")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Selenium")));
+    }
+
     private MockHttpSession registerAndSignIn(String fullName, String email, String password) throws Exception {
         mockMvc.perform(post("/register")
                         .with(csrf())
@@ -120,6 +177,21 @@ class FormreadyApplicationTests {
                 .andReturn();
 
         return (MockHttpSession) login.getRequest().getSession();
+    }
+
+    private void saveBasicProfile(MockHttpSession session, String firstName, String lastName) throws Exception {
+        mockMvc.perform(post("/profile")
+                        .session(session)
+                        .with(csrf())
+                        .param("firstName", firstName)
+                        .param("lastName", lastName)
+                        .param("phone", "")
+                        .param("city", "")
+                        .param("country", "")
+                        .param("professionalSummary", "")
+                        .param("linkedinUrl", "")
+                        .param("portfolioUrl", ""))
+                .andExpect(status().is3xxRedirection());
     }
 
 }
