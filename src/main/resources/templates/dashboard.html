@@ -17,11 +17,15 @@
 <main class="dashboard-main">
     <section aria-labelledby="dashboard-title" class="dashboard-card">
         <p class="eyebrow">YOUR PRIVATE WORKSPACE</p>
-        <h1 id="dashboard-title">You’re signed in.</h1>
+        <h1 id="dashboard-title" th:if="${profileCreated}">Your profile is ready.</h1>
+        <h1 id="dashboard-title" th:unless="${profileCreated}">Start your application profile.</h1>
         <p>Your FormReady account is active for <strong th:text="${email}">your email address</strong>.</p>
-        <p>Next, we will build your reusable profile: the contact details, experience, skills, and links that will make each job application quicker to prepare.</p>
+        <p th:if="${profileCreated}">Keep your contact details and career links current so your next application is quicker to prepare.</p>
+        <p th:unless="${profileCreated}">Save your contact details and career links once. FormReady will use them later to help you prepare every job application.</p>
+        <p class="form-message success" role="status" th:if="${param.profileSaved}">Your profile has been saved.</p>
         <div class="dashboard-actions">
-            <a class="button" href="#next-step">Profile setup is next</a>
+            <a class="button" href="/profile" th:if="${profileCreated}">Edit profile</a>
+            <a class="button" href="/profile" th:unless="${profileCreated}">Set up profile</a>
         </div>
     </section>
 </main>

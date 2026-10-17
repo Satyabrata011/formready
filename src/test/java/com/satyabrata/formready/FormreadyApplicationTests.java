@@ -1,5 +1,7 @@
 package com.satyabrata.formready;
 
+import com.satyabrata.formready.profile.Profile;
+import com.satyabrata.formready.profile.ProfileRepository;
 import com.satyabrata.formready.user.AppUser;
 import com.satyabrata.formready.user.AppUserRepository;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,9 @@ class FormreadyApplicationTests {
 
     @Autowired
     private AppUserRepository users;
+
+    @Autowired
+    private ProfileRepository profiles;
 
 	@Test
 	void contextLoads() {
@@ -67,6 +72,54 @@ class FormreadyApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(view().name("dashboard"))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("asha.example@email.com")));
+    }
+
+    @Test
+    void signedInUserCanSaveAndReviewTheirOwnProfile() throws Exception {
+        MockHttpSession session = registerAndSignIn("Profile User", "profile.owner@email.com", "secure-password-34");
+
+        mockMvc.perform(post("/profile")
+                        .session(session)
+                        .with(csrf())
+                        .param("firstName", "Profile")
+                        .param("lastName", "User")
+                        .param("phone", "+91 98765 43210")
+                        .param("city", "Bhubaneswar")
+                        .param("country", "India")
+                        .param("professionalSummary", "Automation tester focused on useful, reliable web products.")
+                        .param("linkedinUrl", "https://www.linkedin.com/in/example")
+                        .param("portfolioUrl", "https://example.dev"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/dashboard?profileSaved"));
+
+        AppUser user = users.findByEmail("profile.owner@email.com").orElseThrow();
+        Profile profile = profiles.findByUserId(user.getId()).orElseThrow();
+        assertThat(profile.getCity()).isEqualTo("Bhubaneswar");
+        assertThat(profile.getPortfolioUrl()).isEqualTo("https://example.dev");
+
+        mockMvc.perform(get("/profile").session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("profile"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Bhubaneswar")));
+    }
+
+    private MockHttpSession registerAndSignIn(String fullName, String email, String password) throws Exception {
+        mockMvc.perform(post("/register")
+                        .with(csrf())
+                        .param("fullName", fullName)
+                        .param("email", email)
+                        .param("password", password)
+                        .param("passwordConfirmation", password))
+                .andExpect(status().is3xxRedirection());
+
+        MvcResult login = mockMvc.perform(post("/login")
+                        .with(csrf())
+                        .param("username", email)
+                        .param("password", password))
+                .andExpect(status().is3xxRedirection())
+                .andReturn();
+
+        return (MockHttpSession) login.getRequest().getSession();
     }
 
 }

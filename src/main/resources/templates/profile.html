@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Your profile | FormReady</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<header class="site-header">
+    <a aria-label="FormReady home" class="brand" href="/">Form<span>Ready</span></a>
+    <nav aria-label="Main navigation">
+        <a class="text-link" href="/dashboard">Dashboard</a>
+        <form class="logout-form" method="post" th:action="@{/logout}">
+            <button class="button button-small button-quiet" type="submit">Sign out</button>
+        </form>
+    </nav>
+</header>
+
+<main class="auth-main">
+    <section aria-labelledby="profile-title" class="auth-card">
+        <p class="eyebrow">YOUR REUSABLE DETAILS</p>
+        <h1 id="profile-title">Set up your profile.</h1>
+        <p class="form-intro">Save only the details that help you prepare job applications. FormReady does not ask for a street address, identity documents, or banking details.</p>
+
+        <form class="form-stack" method="post" th:action="@{/profile}" th:object="${profileForm}">
+            <h2 class="form-section-title">Contact details</h2>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="firstName">First name</label>
+                    <input autocomplete="given-name" id="firstName" maxlength="100" required th:field="*{firstName}" type="text">
+                    <p class="field-error" th:errors="*{firstName}"></p>
+                </div>
+                <div class="form-field">
+                    <label for="lastName">Last name</label>
+                    <input autocomplete="family-name" id="lastName" maxlength="100" required th:field="*{lastName}" type="text">
+                    <p class="field-error" th:errors="*{lastName}"></p>
+                </div>
+            </div>
+            <div class="form-field">
+                <label for="phone">Phone number <span aria-hidden="true">(optional)</span></label>
+                <input autocomplete="tel" id="phone" maxlength="30" th:field="*{phone}" type="tel">
+                <p class="field-error" th:errors="*{phone}"></p>
+            </div>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="city">City <span aria-hidden="true">(optional)</span></label>
+                    <input autocomplete="address-level2" id="city" maxlength="100" th:field="*{city}" type="text">
+                    <p class="field-error" th:errors="*{city}"></p>
+                </div>
+                <div class="form-field">
+                    <label for="country">Country <span aria-hidden="true">(optional)</span></label>
+                    <input autocomplete="country-name" id="country" maxlength="100" th:field="*{country}" type="text">
+                    <p class="field-error" th:errors="*{country}"></p>
+                </div>
+            </div>
+
+            <h2 class="form-section-title">Professional details</h2>
+            <div class="form-field">
+                <label for="professionalSummary">Professional summary <span aria-hidden="true">(optional)</span></label>
+                <textarea id="professionalSummary" maxlength="1500" rows="5" th:field="*{professionalSummary}"></textarea>
+                <p class="field-error" th:errors="*{professionalSummary}"></p>
+            </div>
+            <div class="form-field">
+                <label for="linkedinUrl">LinkedIn web address <span aria-hidden="true">(optional)</span></label>
+                <input autocomplete="url" id="linkedinUrl" maxlength="500" placeholder="https://www.linkedin.com/in/your-name" th:field="*{linkedinUrl}" type="url">
+                <p class="field-error" th:errors="*{linkedinUrl}"></p>
+            </div>
+            <div class="form-field">
+                <label for="portfolioUrl">Portfolio web address <span aria-hidden="true">(optional)</span></label>
+                <input autocomplete="url" id="portfolioUrl" maxlength="500" placeholder="https://your-portfolio.example" th:field="*{portfolioUrl}" type="url">
+                <p class="field-error" th:errors="*{portfolioUrl}"></p>
+            </div>
+            <button class="button form-submit" data-testid="profile-save" type="submit">Save profile</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>
