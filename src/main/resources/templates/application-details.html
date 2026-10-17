@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Application plan | FormReady</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<header class="site-header">
+    <a aria-label="FormReady home" class="brand" href="/">Form<span>Ready</span></a>
+    <nav aria-label="Main navigation">
+        <a class="text-link" href="/dashboard">Dashboard</a>
+        <a class="text-link" href="/profile">Profile</a>
+        <form class="logout-form" method="post" th:action="@{/logout}">
+            <button class="button button-small button-quiet" type="submit">Sign out</button>
+        </form>
+    </nav>
+</header>
+
+<main class="application-main">
+    <p class="eyebrow">APPLICATION PLAN</p>
+    <div class="application-heading">
+        <div>
+            <h1 th:text="${jobApplication.jobTitle}">Job title</h1>
+            <p class="application-company" th:text="${jobApplication.companyName}">Company</p>
+        </div>
+        <span class="status-badge" th:text="${jobApplication.status.label}">Draft</span>
+    </div>
+    <p class="form-message success" role="status" th:if="${param.created}">Application plan created. Next, we will generate its preparation checklist.</p>
+    <p class="form-message success" role="status" th:if="${param.statusUpdated}">Application status updated.</p>
+
+    <div class="application-grid">
+        <section aria-labelledby="overview-title" class="application-card">
+            <h2 id="overview-title">Overview</h2>
+            <dl class="application-facts">
+                <div>
+                    <dt>Deadline</dt>
+                    <dd th:if="${jobApplication.deadline != null}" th:text="${#temporals.format(jobApplication.deadline, 'd MMMM yyyy')}">1 January 2027</dd>
+                    <dd th:unless="${jobApplication.deadline != null}">No deadline added</dd>
+                </div>
+                <div>
+                    <dt>Job link</dt>
+                    <dd th:if="${jobApplication.jobUrl != null}"><a class="secondary-link" rel="noopener noreferrer" target="_blank" th:href="${jobApplication.jobUrl}">Open job listing</a></dd>
+                    <dd th:unless="${jobApplication.jobUrl != null}">No job link added</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section aria-labelledby="status-title" class="application-card">
+            <h2 id="status-title">Update status</h2>
+            <p class="form-intro">Keep this current so your dashboard reflects the stage of each application.</p>
+            <form class="form-stack" method="post" th:action="@{|/applications/${jobApplication.id}/status|}">
+                <div class="form-field">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option th:each="status : ${statuses}" th:selected="${status == jobApplication.status}" th:text="${status.label}" th:value="${status}">Draft</option>
+                    </select>
+                </div>
+                <button class="button form-submit" type="submit">Save status</button>
+            </form>
+        </section>
+    </div>
+</main>
+</body>
+</html>

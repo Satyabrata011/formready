@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>New application plan | FormReady</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<header class="site-header">
+    <a aria-label="FormReady home" class="brand" href="/">Form<span>Ready</span></a>
+    <nav aria-label="Main navigation">
+        <a class="text-link" href="/dashboard">Dashboard</a>
+        <a class="text-link" href="/profile">Profile</a>
+        <form class="logout-form" method="post" th:action="@{/logout}">
+            <button class="button button-small button-quiet" type="submit">Sign out</button>
+        </form>
+    </nav>
+</header>
+
+<main class="auth-main">
+    <section aria-labelledby="application-title" class="auth-card">
+        <p class="eyebrow">NEW APPLICATION PLAN</p>
+        <h1 id="application-title">Capture the opportunity.</h1>
+        <p class="form-intro">Add the target role, company, link, and deadline. FormReady will keep this preparation plan separate from every other application.</p>
+
+        <form class="form-stack" method="post" th:action="@{/applications}" th:object="${jobApplicationForm}">
+            <div class="form-field">
+                <label for="companyName">Company</label>
+                <input autocomplete="organization" id="companyName" maxlength="200" required th:field="*{companyName}" type="text">
+                <p class="field-error" th:errors="*{companyName}"></p>
+            </div>
+            <div class="form-field">
+                <label for="jobTitle">Job title</label>
+                <input id="jobTitle" maxlength="200" placeholder="QA Automation Engineer" required th:field="*{jobTitle}" type="text">
+                <p class="field-error" th:errors="*{jobTitle}"></p>
+            </div>
+            <div class="form-field">
+                <label for="jobUrl">Job web address <span aria-hidden="true">(optional)</span></label>
+                <input autocomplete="url" id="jobUrl" maxlength="500" placeholder="https://company.example/jobs/role" th:field="*{jobUrl}" type="url">
+                <p class="field-error" th:errors="*{jobUrl}"></p>
+            </div>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="deadline">Application deadline <span aria-hidden="true">(optional)</span></label>
+                    <input id="deadline" th:field="*{deadline}" type="date">
+                    <p class="field-error" th:errors="*{deadline}"></p>
+                </div>
+                <div class="form-field">
+                    <label for="status">Current status</label>
+                    <select id="status" th:field="*{status}">
+                        <option th:each="status : ${statuses}" th:text="${status.label}" th:value="${status}">Draft</option>
+                    </select>
+                    <p class="field-error" th:errors="*{status}"></p>
+                </div>
+            </div>
+            <button class="button form-submit" data-testid="application-create" type="submit">Create application plan</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

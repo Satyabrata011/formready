@@ -300,7 +300,8 @@ h2 {
 }
 
 .form-field input,
-.form-field textarea {
+.form-field textarea,
+.form-field select {
     background: #fff;
     border: 1px solid #b9c3d6;
     border-radius: 0.55rem;
@@ -311,7 +312,8 @@ h2 {
 }
 
 .form-field input:focus,
-.form-field textarea:focus {
+.form-field textarea:focus,
+.form-field select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(66, 86, 208, 0.18);
     outline: none;
@@ -499,6 +501,123 @@ h2 {
     margin: 0;
 }
 
+.applications-card {
+    margin-top: 1.5rem;
+    max-width: 66rem;
+}
+
+.applications-heading,
+.application-heading {
+    align-items: start;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.applications-heading h2 {
+    font-size: 1.55rem;
+    margin-bottom: 0;
+    max-width: none;
+}
+
+.application-list-item {
+    align-items: center;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1rem 0;
+    text-decoration: none;
+}
+
+.application-list-item:hover strong {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.application-list-item > span:first-child {
+    display: grid;
+    gap: 0.15rem;
+}
+
+.application-list-item > span:first-child span,
+.application-list-meta {
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+.application-list-meta {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    justify-content: end;
+}
+
+.status-badge {
+    background: #e8ebfb;
+    border-radius: 999px;
+    color: #3448b9;
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    padding: 0.3rem 0.55rem;
+}
+
+.application-main {
+    margin: 0 auto;
+    max-width: 72rem;
+    padding: clamp(2.5rem, 7vw, 5rem) clamp(1.25rem, 6vw, 2.5rem);
+}
+
+.application-heading h1 {
+    max-width: none;
+}
+
+.application-company {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.application-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.5rem;
+}
+
+.application-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.9rem;
+    padding: 1.5rem;
+}
+
+.application-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    max-width: none;
+}
+
+.application-facts {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+}
+
+.application-facts dt {
+    color: var(--muted);
+    font-size: 0.84rem;
+    font-weight: 750;
+    text-transform: uppercase;
+}
+
+.application-facts dd {
+    margin: 0.25rem 0 0;
+}
+
 .button-quiet {
     background: transparent;
     border: 1px solid var(--border);
@@ -523,8 +642,20 @@ h2 {
     .hero,
     .steps,
     .form-grid,
-    .details-layout {
+    .details-layout,
+    .application-grid {
         grid-template-columns: 1fr;
+    }
+
+    .applications-heading,
+    .application-heading,
+    .application-list-item {
+        align-items: start;
+        flex-direction: column;
+    }
+
+    .application-list-meta {
+        justify-content: start;
     }
 
     .hero {

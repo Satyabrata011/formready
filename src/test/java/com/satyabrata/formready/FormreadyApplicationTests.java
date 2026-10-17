@@ -5,6 +5,8 @@ import com.satyabrata.formready.profile.ProfileRepository;
 import com.satyabrata.formready.profile.EducationRepository;
 import com.satyabrata.formready.profile.ProfileSkillRepository;
 import com.satyabrata.formready.profile.WorkExperienceRepository;
+import com.satyabrata.formready.application.JobApplication;
+import com.satyabrata.formready.application.JobApplicationRepository;
 import com.satyabrata.formready.user.AppUser;
 import com.satyabrata.formready.user.AppUserRepository;
 import org.junit.jupiter.api.Test;
@@ -45,6 +47,9 @@ class FormreadyApplicationTests {
 
     @Autowired
     private ProfileSkillRepository skills;
+
+    @Autowired
+    private JobApplicationRepository applications;
 
 	@Test
 	void contextLoads() {
@@ -158,6 +163,38 @@ class FormreadyApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Bhubaneswar Technical Institute")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("QA Automation Engineer")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Selenium")));
+    }
+
+    @Test
+    void signedInUserCanCreateAndUpdateTheirOwnJobApplication() throws Exception {
+        MockHttpSession session = registerAndSignIn("Application User", "application.owner@email.com", "secure-password-78");
+
+        mockMvc.perform(post("/applications")
+                        .session(session)
+                        .with(csrf())
+                        .param("companyName", "Example Labs")
+                        .param("jobTitle", "QA Automation Engineer")
+                        .param("jobUrl", "https://example.dev/jobs/qa-automation")
+                        .param("deadline", "2026-11-15")
+                        .param("status", "PREPARING"))
+                .andExpect(status().is3xxRedirection());
+
+        assertThat(applications.count()).isEqualTo(1);
+        JobApplication application = applications.findAll().getFirst();
+        assertThat(application.getJobTitle()).isEqualTo("QA Automation Engineer");
+
+        mockMvc.perform(post("/applications/{applicationId}/status", application.getId())
+                        .session(session)
+                        .with(csrf())
+                        .param("status", "APPLIED"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/applications/" + application.getId() + "?statusUpdated"));
+
+        mockMvc.perform(get("/applications/{applicationId}", application.getId()).session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("application-details"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("QA Automation Engineer")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Applied")));
     }
 
     private MockHttpSession registerAndSignIn(String fullName, String email, String password) throws Exception {

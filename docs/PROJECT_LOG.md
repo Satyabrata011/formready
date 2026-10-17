@@ -1,4 +1,4 @@
-# FormReady project log
+ # FormReady project log
 
 This is the persistent record for the project. Update it whenever a meaningful decision, implementation step, verification result, or scope change is made.
 
@@ -58,7 +58,8 @@ It is a user-facing product, not an internal company test framework and not an e
 | 2026-10-17 | Implemented account registration, custom sign-in, password hashing, database migration, a protected dashboard, and automated registration-to-login coverage. Local development accounts now persist in a file-backed H2 database; tests use an isolated in-memory database. | Complete |
 | 2026-10-17 | Implemented the reusable personal profile: protected create/update page, contact and professional fields, safe web-link validation, database migration, and automated profile-save coverage. | Complete |
 | 2026-10-17 | Implemented reusable education, work-experience, and skill entries with owner-only deletion, input validation, database migration, and automated coverage. | Complete |
+| 2026-10-17 | Implemented owner-scoped job application plans with company, role, optional web link and deadline, status updates, dashboard listing, database migration, and automated coverage. | Complete |
 
 ## Next step
 
-Run the full profile journey locally and commit it. Then build job-application creation with company, role, URL, deadline, and status.
+Run the job-application journey locally and commit it. Then generate the standard preparation checklist for every new application.

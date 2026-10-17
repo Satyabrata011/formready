@@ -29,6 +29,27 @@
             <a class="secondary-link" href="/profile/details" th:if="${profileCreated}">Manage career details</a>
         </div>
     </section>
+
+    <section aria-labelledby="applications-title" class="dashboard-card applications-card">
+        <div class="applications-heading">
+            <div>
+                <p class="eyebrow">YOUR APPLICATION PLANS</p>
+                <h2 id="applications-title">Keep every opportunity on track.</h2>
+            </div>
+            <a class="button button-small" href="/applications/new">New application</a>
+        </div>
+        <p class="empty-state" th:if="${#lists.isEmpty(applications)}">No application plans yet. Add one when you find a role you want to pursue.</p>
+        <a class="application-list-item" th:each="application : ${applications}" th:href="@{|/applications/${application.id}|}">
+            <span>
+                <strong th:text="${application.jobTitle}">Job title</strong>
+                <span th:text="${application.companyName}">Company</span>
+            </span>
+            <span class="application-list-meta">
+                <span class="status-badge" th:text="${application.status.label}">Draft</span>
+                <span th:if="${application.deadline != null}" th:text="|Due ${#temporals.format(application.deadline, 'd MMM')}|">Due 1 Jan</span>
+            </span>
+        </a>
+    </section>
 </main>
 </body>
 </html>
